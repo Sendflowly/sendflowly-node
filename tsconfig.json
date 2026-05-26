@@ -1,0 +1,17 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "./dist",
+		// No `rootDir` — we only use `tsc --noEmit` for type-checking (tsdown
+		// owns emission via its own config). `rootDir` would block type-checking
+		// tests/ alongside src/.
+		"lib": ["ES2022", "WebWorker"],
+		// `noUncheckedIndexedAccess` was originally enabled but turned off:
+		// src/ doesn't do raw array index access (we use typed Maps/Sets), and
+		// in tests/ it requires `!` on every `mock.calls[N]` assertion just to
+		// tell TS "yes, the call happened" — pure noise. `exactOptionalPropertyTypes`
+		// still catches the real bugs the SDK would otherwise have.
+		"exactOptionalPropertyTypes": true
+	},
+	"include": ["src/**/*.ts", "tests/**/*.ts"]
+}
